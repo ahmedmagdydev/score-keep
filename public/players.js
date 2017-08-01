@@ -8,7 +8,7 @@
   {
     "_id": "597f7f3647fc57b133c45cfa",
     "index": 1,
-    "score": 18,
+    "score": 41,
     "name": "Caldwell Shaw"
   },
   {

@@ -19,7 +19,7 @@ export default class PlayersList extends Component{
         })
          .catch(function (error) {
              console.log(error);
-           });
+       });
     }
 
     handleSubmit(e){
@@ -33,6 +33,7 @@ export default class PlayersList extends Component{
             score:0
         })
         this.setState({players,_id:_id+1})
+        e.target.name.value=''
     }
 
      toggleSort() {
@@ -46,7 +47,7 @@ export default class PlayersList extends Component{
     }
 
     points(score){
-        return this.score === 1 ? 'point' : 'points'
+        return score === 1 ? 'point' : 'points'
     }
 
     addPoint(i,score){
@@ -102,7 +103,8 @@ export default class PlayersList extends Component{
                         <div className="panel panel-default" key={player._id}>
                           <div className="panel-body">
                             <p>player : {player.name}</p>
-                            <p>has : {player.score} {this.points(player.score)}</p>
+                            <p>has : {player.score} {(this.points(player.score))}
+                            </p>
                           </div>
                           <div className="panel-footer"><button className="btn btn-primary" onClick={this.addPoint.bind(this,index,player.score)}>+1
                             </button>
