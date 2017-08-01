@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import axios from 'axios'
+import FlipMove from 'react-flip-move';
 
 export default class PlayersList extends Component{
     constructor(props) {
@@ -15,8 +16,12 @@ export default class PlayersList extends Component{
        axios.get('players.js')
          .then(res => {
            this.setState({ players:res.data });
-        });
+        })
+         .catch(function (error) {
+             console.log(error);
+           });
     }
+
     handleSubmit(e){
         e.preventDefault();
         let playerName = e.target.name.value
@@ -29,6 +34,7 @@ export default class PlayersList extends Component{
         })
         this.setState({players,_id:_id+1})
     }
+
      toggleSort() {
       const sortDesc = (a, b) => b.score - a.score;
       const sortAsc = (a, b) => a.score - b.score;
@@ -42,6 +48,7 @@ export default class PlayersList extends Component{
     points(score){
         return this.score === 1 ? 'point' : 'points'
     }
+
     addPoint(i,score){
 
         const players = this.state.players
@@ -52,6 +59,7 @@ export default class PlayersList extends Component{
             players
         })
     }
+
     removePoint(i,score){
         const players = this.state.players
         const playerPoints = players[i]
@@ -61,27 +69,51 @@ export default class PlayersList extends Component{
             players
         })
     }
+
     render(){
 
         return(
             <div>
-            <button onClick={this.toggleSort.bind(this)}>sort</button>
+            <br/>
+            <div className="form-horizontal">
+                <div className="row">
+                    <div className="col-sm-6">
+                        <button className="btn btn-primary" onClick={this.toggleSort.bind(this)}>sort</button>
+                    </div>
+                    <div className="col-sm-6">
+                            <form onSubmit={this.handleSubmit.bind(this)}>
+                        <div className="form-group">
+
+                            <div className="col-sm-7">
+                                <input className="form-control " type="text" name="name"/>
+                            </div>
+
+                            <div className="col-sm-5">
+                                <button className="btn btn-primary ">add player</button>
+                            </div>
+                        </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+              <FlipMove duration={400} easing="ease-out">
                 {this.state.players.map((player,index)=>{
                     return (
-                        <div key={player._id}>
+                        <div className="panel panel-default" key={player._id}>
+                          <div className="panel-body">
                             <p>player : {player.name}</p>
                             <p>has : {player.score} {this.points(player.score)}</p>
-                            <button onClick={this.addPoint.bind(this,index,player.score)}>+1
+                          </div>
+                          <div className="panel-footer"><button className="btn btn-primary" onClick={this.addPoint.bind(this,index,player.score)}>+1
                             </button>
-                            <button onClick={this.removePoint.bind(this,index,player.score)}>-1</button>
-                            <button>x</button>
+                            <button className="btn btn-primary" onClick={this.removePoint.bind(this,index,player.score)}>-1</button>
+                            <button className="btn btn-primary">x</button></div>
                         </div>
+
                         )
                 })}
-                <form onSubmit={this.handleSubmit.bind(this)}>
-                    <input type="text" name="name"/>
-                    <button>add player</button>
-                </form>
+                 </FlipMove>
+
             </div>
         )
     }
