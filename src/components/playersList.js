@@ -26,13 +26,13 @@ export default class PlayersList extends Component{
         e.preventDefault();
         let playerName = e.target.name.value
         const players = this.state.players
-        const _id = this.state._id
+
         players.push({
             _id:this.state._id,
             name:playerName,
             score:0
         })
-        this.setState({players,_id:_id+1})
+        this.setState({players,_id:this.state._id +1})
         e.target.name.value=''
     }
 
